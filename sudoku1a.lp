@@ -10,21 +10,8 @@ num(1..4).
 % Column constraint: No number appears more than once in any column
 :- sudoku(X1, Y, N), sudoku(X2, Y, N), X1 != X2, num(Y), num(N).
 
-% Subgrid assignments for a 4x4 grid
-subgrid(1, 1, 1). subgrid(1, 2, 1). subgrid(2, 1, 1). subgrid(2, 2, 1).
-subgrid(1, 3, 2). subgrid(1, 4, 2). subgrid(2, 3, 2). subgrid(2, 4, 2).
-subgrid(3, 1, 3). subgrid(3, 2, 3). subgrid(4, 1, 3). subgrid(4, 2, 3).
-subgrid(3, 3, 4). subgrid(3, 4, 4). subgrid(4, 3, 4). subgrid(4, 4, 4).
-
-% Subgrid constraint: No number appears more than once in any subgrid
-:- sudoku(X1, Y1, N), sudoku(X2, Y2, N), subgrid(X1, Y1, G), subgrid(X2, Y2, G), (X1, Y1) != (X2, Y2).
-
 % Ensure the initial values are respected if provided in the instance
 sudoku(X, Y, N) :- initial(X, Y, N).
 
-% Ensure that subgrid information is part of every stable model
-{ subgrid(X, Y, G) : subgrid(X, Y, G) } 1 :- num(X), num(Y).
-
-% Only output the solved cells, do not output other atoms like num, subgrid, or initial
+% Only output the solved cells, do not output other atoms like num or initial
 #show sudoku/3.
-#show subgrid/3.
